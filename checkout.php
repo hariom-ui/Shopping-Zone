@@ -53,13 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <li>
                             <?php echo htmlspecialchars($item['name']); ?> 
                             (<?php echo $item['quantity']; ?> x $<?php echo number_format($item['price'], 2); ?>)
-                            <span>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></span>
+                            <span>₹<?php echo number_format($item['price'] * $item['quantity'], 2); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>
                 <div class="order-total">
                     <strong>Total:</strong>
-                    <span>$<?php echo number_format(getCartTotal(), 2); ?></span>
+                    <span>₹<?php echo number_format(getCartTotal(), 2); ?></span>
                 </div>
             </div>
             
@@ -95,8 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="country">Country</label>
                         <select id="country" name="country" required>
                             <option value="">Select Country</option>
+                            <option value="US">India</option>
+                            <option value="US">China</option>
+                            <option value="US">Cannada</option>
                             <option value="US">United States</option>
-                            <option value="CA">Canada</option>
+                            <option value="CA">Ukraine</option>
                             <option value="UK">United Kingdom</option>
                             <!-- Add more countries as needed -->
                         </select>
@@ -106,9 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="payment">Payment Method</label>
                         <select id="payment" name="payment" required>
                             <option value="">Select Payment Method</option>
+                            <option value="credit">Cash On Delivery</option>
                             <option value="credit">Credit Card</option>
-                            <option value="paypal">PayPal</option>
-                            <option value="bank">Bank Transfer</option>
+                            <option value="paypal">Debit Card</option>
+                            <option value="bank">UPI</option>
                         </select>
                     </div>
                     

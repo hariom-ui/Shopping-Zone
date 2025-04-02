@@ -26,7 +26,7 @@
                     echo '<div class="product-card">';
                     echo '<img src="assets/images/' . htmlspecialchars($product['image']) . '" alt="' . htmlspecialchars($product['name']) . '">';
                     echo '<h3>' . htmlspecialchars($product['name']) . '</h3>';
-                    echo '<p>$' . number_format($product['price'], 2) . '</p>';
+                    echo '<p>₹' . number_format($product['price'], 2) . '</p>';
                     echo '<a href="product_detail.php?id=' . $product['id'] . '" class="btn">View Details</a>';
                     echo '</div>';
                 }

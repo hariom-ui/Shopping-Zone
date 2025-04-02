@@ -39,7 +39,7 @@ $orders = getUserOrders($_SESSION['user_id']);
                             <tr>
                                 <td>#<?php echo $order['id']; ?></td>
                                 <td><?php echo date('M j, Y', strtotime($order['created_at'])); ?></td>
-                                <td>$<?php echo number_format($order['total'], 2); ?></td>
+                                <td>₹<?php echo number_format($order['total'], 2); ?></td>
                                 <td>
                                     <span class="status-<?php echo strtolower($order['status']); ?>">
                                         <?php echo ucfirst($order['status']); ?>

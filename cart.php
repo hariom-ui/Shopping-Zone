@@ -41,11 +41,11 @@ $cartItems = getCartItems();
                                     <img src="assets/images/<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" width="50">
                                     <?php echo htmlspecialchars($item['name']); ?>
                                 </td>
-                                <td>$<?php echo number_format($item['price'], 2); ?></td>
+                                <td>₹<?php echo number_format($item['price'], 2); ?></td>
                                 <td>
                                     <input type="number" class="quantity-input" data-product-id="<?php echo $item['id']; ?>" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>">
                                 </td>
-                                <td>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                                <td>₹<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
                                 <td>
                                     <button class="btn remove-from-cart" data-product-id="<?php echo $item['id']; ?>">Remove</button>
                                 </td>
@@ -55,7 +55,7 @@ $cartItems = getCartItems();
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-right"><strong>Total:</strong></td>
-                            <td colspan="2">$<?php echo number_format(getCartTotal(), 2); ?></td>
+                            <td colspan="2">₹<?php echo number_format(getCartTotal(), 2); ?></td>
                         </tr>
                     </tfoot>
                 </table>

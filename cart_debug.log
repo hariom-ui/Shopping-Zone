@@ -314,3 +314,242 @@ Cart contents: Array
     [3] => 1
 )
 
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 2
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 3
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 10
+)
+Product ID: 3, Quantity: 10
+Cart contents: Array
+(
+    [3] => 10
+)
+
+Array
+(
+    [product_id] => 2
+    [quantity] => 8
+)
+Product ID: 2, Quantity: 8
+Cart contents: Array
+(
+    [3] => 10
+    [2] => 8
+)
+
+Array
+(
+    [product_id] => 4
+    [quantity] => 2
+)
+Product ID: 4, Quantity: 2
+Cart contents: Array
+(
+    [4] => 2
+)
+
+Array
+(
+    [product_id] => 5
+    [quantity] => 1
+)
+Product ID: 5, Quantity: 1
+Cart contents: Array
+(
+    [5] => 1
+)
+
+Array
+(
+    [product_id] => 4
+    [quantity] => 1
+)
+Product ID: 4, Quantity: 1
+Cart contents: Array
+(
+    [5] => 1
+    [4] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [5] => 1
+    [4] => 1
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 2
+    [quantity] => 40
+)
+Product ID: 2, Quantity: 40
+Cart contents: Array
+(
+    [5] => 1
+    [4] => 1
+    [3] => 1
+    [2] => 40
+)
+
+Array
+(
+    [product_id] => 5
+    [quantity] => 1
+)
+Product ID: 5, Quantity: 1
+Cart contents: Array
+(
+    [5] => 1
+)
+
+Array
+(
+    [product_id] => 4
+    [quantity] => 1
+)
+Product ID: 4, Quantity: 1
+Cart contents: Array
+(
+    [5] => 1
+    [4] => 1
+)
+
+Array
+(
+    [product_id] => 4
+    [quantity] => 96
+)
+Product ID: 4, Quantity: 96
+Cart contents: Array
+(
+    [4] => 96
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 4
+    [quantity] => 1
+)
+Product ID: 4, Quantity: 1
+Cart contents: Array
+(
+    [4] => 1
+)
+
+Array
+(
+    [product_id] => 3
+    [quantity] => 1
+)
+Product ID: 3, Quantity: 1
+Cart contents: Array
+(
+    [3] => 1
+)
+
+Array
+(
+    [product_id] => 5
+    [quantity] => 1
+)
+Product ID: 5, Quantity: 1
+Cart contents: Array
+(
+    [5] => 1
+)
+

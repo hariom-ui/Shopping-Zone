@@ -39,7 +39,7 @@ if (!$order) {
                 <p><strong>Status:</strong> <span class="status-<?= strtolower($order['status']) ?>">
                     <?= ucfirst($order['status']) ?>
                 </span></p>
-                <p><strong>Total:</strong> $<?= number_format($order['total'], 2) ?></p>
+                <p><strong>Total:</strong> ₹<?= number_format($order['total'], 2) ?></p>
             </div>
             
             <div class="order-items">
@@ -60,16 +60,16 @@ if (!$order) {
                                 <img src="assets/images/<?= htmlspecialchars($item['image']) ?>" width="50" alt="<?= htmlspecialchars($item['name']) ?>">
                                 <?= htmlspecialchars($item['name']) ?>
                             </td>
-                            <td>$<?= number_format($item['price'], 2) ?></td>
+                            <td>₹<?= number_format($item['price'], 2) ?></td>
                             <td><?= $item['quantity'] ?></td>
-                            <td>$<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                            <td>₹<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-right"><strong>Order Total:</strong></td>
-                            <td>$<?= number_format($order['total'], 2) ?></td>
+                            <td>₹<?= number_format($order['total'], 2) ?></td>
                         </tr>
                     </tfoot>
                 </table>

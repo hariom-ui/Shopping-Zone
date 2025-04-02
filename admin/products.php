@@ -45,7 +45,7 @@ $products = getProducts();
                             <img src="../assets/images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" width="50">
                         </td>
                         <td><?php echo htmlspecialchars($product['name']); ?></td>
-                        <td>$<?php echo number_format($product['price'], 2); ?></td>
+                        <td>₹<?php echo number_format($product['price'], 2); ?></td>
                         <td><?php echo $product['stock']; ?></td>
                         <td>
                             <a href="edit_product.php?id=<?php echo $product['id']; ?>" class="btn">Edit</a>

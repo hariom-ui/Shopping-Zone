@@ -30,7 +30,7 @@ if (!$product) {
         
         <div class="product-info">
             <h1><?php echo htmlspecialchars($product['name']); ?></h1>
-            <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+            <p class="price">₹<?php echo number_format($product['price'], 2); ?></p>
             <p class="stock"><?php echo $product['stock'] > 0 ? 'In Stock' : 'Out of Stock'; ?></p>
             
             <div class="product-description">

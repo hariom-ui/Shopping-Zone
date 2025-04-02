@@ -47,7 +47,7 @@ if (!isLoggedIn() || !isAdmin()) {
             
             <div class="stat-card">
                 <h3>Revenue</h3>
-                <p>$<?php 
+                <p>₹<?php 
                     $result = $conn->query("SELECT SUM(total) as total FROM orders WHERE status != 'cancelled'");
                     echo number_format($result->fetch_assoc()['total'] ?? 0, 2);
                 ?></p>
@@ -78,7 +78,7 @@ if (!isLoggedIn() || !isAdmin()) {
                             <td>#<?php echo $order['id']; ?></td>
                             <td><?php echo htmlspecialchars($order['username']); ?></td>
                             <td><?php echo date('M j, Y', strtotime($order['created_at'])); ?></td>
-                            <td>$<?php echo number_format($order['total'], 2); ?></td>
+                            <td>₹<?php echo number_format($order['total'], 2); ?></td>
                             <td>
                                 <span class="status-<?php echo strtolower($order['status']); ?>">
                                     <?php echo ucfirst($order['status']); ?>
