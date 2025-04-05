@@ -1,6 +1,3 @@
-CREATE DATABASE shopping_db;
-USE shopping_db;
-
 -- Users table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
