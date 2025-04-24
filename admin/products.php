@@ -14,7 +14,7 @@ $products = getProducts();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo SITE_NAME; ?> - Manage Products</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
     <?php include 'includes/admin_header.php'; ?>
@@ -23,7 +23,8 @@ $products = getProducts();
         <h1>Manage Products</h1>
         
         <div class="admin-actions">
-            <a href="add_product.php" class="btn btn-primary">Add New Product</a>
+            <a href="add_product.php" class="btn btn-primary">Add New Product</a><br><br>
+            <a href="payment_methods.php" class="btn btn-primary">Add & View Payments Methods</a>
         </div>
         
         <table class="admin-table">

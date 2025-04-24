@@ -1,4 +1,11 @@
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo SITE_NAME; ?> - Admin</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
     
     <footer class="admin-footer">
         <div class="container">
@@ -6,6 +13,5 @@
         </div>
     </footer>
     
-    <script src="../assets/js/script.js"></script>
 </body>
 </html>

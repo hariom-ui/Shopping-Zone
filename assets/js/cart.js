@@ -80,7 +80,7 @@ function updateCartTotals() {
     fetch('get_cart_totals.php')
         .then(response => response.json())
         .then(data => {
-            document.querySelector('.cart-total').textContent = '$' + data.total.toFixed(2);
+            document.querySelector('.cart-total').textContent = '₹' + data.total.toFixed(2);
             document.querySelector('.cart-count').textContent = data.count;
         });
 }

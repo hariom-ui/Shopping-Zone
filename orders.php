@@ -6,7 +6,24 @@ if (!isLoggedIn()) {
     exit();
 }
 
-$orders = getUserOrders($_SESSION['user_id']);
+// Get user orders with payment status
+function getUserOrdersWithPayment($user_id) {
+    global $conn;
+    
+    $sql = "SELECT o.*, t.status as payment_status 
+            FROM orders o
+            LEFT JOIN transactions t ON o.id = t.order_id
+            WHERE o.user_id = ?
+            ORDER BY o.created_at DESC";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+$orders = getUserOrdersWithPayment($_SESSION['user_id']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,27 +48,35 @@ $orders = getUserOrders($_SESSION['user_id']);
                             <th>Date</th>
                             <th>Total</th>
                             <th>Status</th>
+                            <th>Payments</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($orders as $order): ?>
                             <tr>
-                                <td>#<?php echo $order['id']; ?></td>
-                                <td><?php echo date('M j, Y', strtotime($order['created_at'])); ?></td>
-                                <td>₹<?php echo number_format($order['total'], 2); ?></td>
-                                <td>
-                                    <span class="status-<?php echo strtolower($order['status']); ?>">
-                                        <?php echo ucfirst($order['status']); ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="order_detail.php?id=<?php echo $order['id']; ?>" class="btn">View</a>
-                                    <?php if ($order['status'] == 'pending'): ?>
-                                        <a href="cancel_order.php?id=<?php echo $order['id']; ?>" class="btn btn-danger">Cancel</a>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
+                        <td>#<?= $order['id'] ?></td>
+                        <td><?= date('M j, Y', strtotime($order['created_at'])) ?></td>
+                        <td>₹<?= number_format($order['total'], 2) ?></td>
+                        <td>
+                            <span class="status-<?= strtolower($order['status']) ?>">
+                                <?= ucfirst($order['status']) ?>
+                            </span>
+                        </td>
+                        <td>
+                            <?php if ($order['payment_status']): ?>
+                                <span class="payment-status-<?= strtolower($order['payment_status']) ?>">
+                                    <?= ucfirst($order['payment_status']) ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="payment-status-pending">Pending</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="order_detail.php?id=<?= $order['id'] ?>" class="btn">View</a>
+                        </td>
+                    </tr>
+
                         <?php endforeach; ?>
                     </tbody>
                 </table>

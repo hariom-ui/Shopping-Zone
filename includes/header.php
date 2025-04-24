@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo SITE_NAME; ?> - Admin</title>
+    <link rel="stylesheet" href="admin/assets/css/admin.css">
+</head>
 <header>
     <div class="container">
         <div class="logo">
@@ -16,9 +24,9 @@
                     <li><a href="logout.php">Logout (<?php echo $_SESSION['username']; ?>)</a></li>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Register</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
     </div>
 </header>
+</html>

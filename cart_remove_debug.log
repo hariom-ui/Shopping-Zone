@@ -125,3 +125,57 @@ Product removed. Cart contents: Array
 (
 )
 
+Array
+(
+    [product_id] => 3
+)
+Attempting to remove product ID: 3
+Product removed. Cart contents: Array
+(
+)
+
+Array
+(
+    [product_id] => 5
+)
+Attempting to remove product ID: 5
+Product removed. Cart contents: Array
+(
+)
+
+Array
+(
+    [product_id] => 3
+)
+Attempting to remove product ID: 3
+Product removed. Cart contents: Array
+(
+)
+
+Array
+(
+    [product_id] => 3
+)
+Attempting to remove product ID: 3
+Product removed. Cart contents: Array
+(
+)
+
+Array
+(
+    [product_id] => 3
+)
+Attempting to remove product ID: 3
+Product removed. Cart contents: Array
+(
+)
+
+Array
+(
+    [product_id] => 3
+)
+Attempting to remove product ID: 3
+Product removed. Cart contents: Array
+(
+)
+

@@ -12,7 +12,7 @@ if (!isLoggedIn() || !isAdmin()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo SITE_NAME; ?> - Admin Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
     <?php include 'includes/admin_header.php'; ?>
@@ -52,6 +52,12 @@ if (!isLoggedIn() || !isAdmin()) {
                     echo number_format($result->fetch_assoc()['total'] ?? 0, 2);
                 ?></p>
             </div>
+
+            <div class="stat-card">
+                <h3>View All Data</h3>
+                <p><a href="database_viewer.php" class = "btn">View</a></p>
+            </div>
+
         </div>
         
         <div class="recent-orders">

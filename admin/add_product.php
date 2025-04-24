@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label>Product Image *</label>
                 <input type="file" name="image" accept="image/*" required>
-                <small>Allowed formats: JPG, PNG, GIF (Max 2MB)</small>
+                <small>Allowed formats: JPG, PNG, GIF (Max 10MB)</small>
             </div>
             
             <button type="submit" class="btn btn-primary">Add Product</button>

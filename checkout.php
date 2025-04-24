@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php foreach ($cartItems as $item): ?>
                         <li>
                             <?php echo htmlspecialchars($item['name']); ?> 
-                            (<?php echo $item['quantity']; ?> x $<?php echo number_format($item['price'], 2); ?>)
+                            (<?php echo $item['quantity']; ?> x ₹<?php echo number_format($item['price'], 2); ?>)
                             <span>₹<?php echo number_format($item['price'] * $item['quantity'], 2); ?></span>
                         </li>
                     <?php endforeach; ?>
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     
                     <div class="form-group">
-                        <label for="zip">ZIP Code</label>
+                        <label for="zip">PIN Code</label>
                         <input type="text" id="zip" name="zip" required>
                     </div>
                     
@@ -95,16 +95,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="country">Country</label>
                         <select id="country" name="country" required>
                             <option value="">Select Country</option>
-                            <option value="US">India</option>
-                            <option value="US">China</option>
-                            <option value="US">Cannada</option>
+                            <option value="IN">India</option>
+                            <option value="CH">China</option>
+                            <option value="CN">Cannada</option>
                             <option value="US">United States</option>
-                            <option value="CA">Ukraine</option>
+                            <option value="UKR">Ukraine</option>
                             <option value="UK">United Kingdom</option>
-                            <!-- Add more countries as needed -->
                         </select>
                     </div>
                     
+                    <!--
                     <div class="form-group">
                         <label for="payment">Payment Method</label>
                         <select id="payment" name="payment" required>
@@ -114,9 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option value="paypal">Debit Card</option>
                             <option value="bank">UPI</option>
                         </select>
-                    </div>
+                    </div> -->
                     
-                    <button type="submit" class="btn btn-primary">Place Order</button>
+                    <button type="submit" class="btn btn-primary"><a href ="place_order.php">Place Order</a></button>
                 </form>
             </div>
         </div>

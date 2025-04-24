@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/config.php';
+require_once '../includes/auth.php';
 
 if (!isLoggedIn() || !isAdmin()) {
     header('Location: ../login.php');
@@ -11,54 +12,72 @@ $per_page = 10;
 $current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $offset = ($current_page - 1) * $per_page;
 
-// Search functionality
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
-$where = '';
-$params = [];
-$types = '';
-
-if (!empty($search)) {
-    $where = "WHERE (o.id LIKE ? OR u.username LIKE ? OR u.email LIKE ?)";
-    $search_term = "%$search%";
-    $params = array_fill(0, 3, $search_term);
-    $types = 'sss';
-}
-
-// Get total count for pagination
-$count_sql = "SELECT COUNT(*) as total FROM orders o JOIN users u ON o.user_id = u.id $where";
-$stmt = $conn->prepare($count_sql);
-if (!empty($where)) {
-    $stmt->bind_param($types, ...$params);
-}
-$stmt->execute();
-$total_orders = $stmt->get_result()->fetch_assoc()['total'];
+// Get total count of orders
+$count_sql = "SELECT COUNT(*) as total FROM orders";
+$total_orders = $conn->query($count_sql)->fetch_assoc()['total'];
 $total_pages = ceil($total_orders / $per_page);
 
-// Get orders with pagination
-$sql = "SELECT o.*, u.username, u.email 
+// Get orders with pagination and payment status
+$sql = "SELECT o.*, 
+               u.username as customer_name,
+               t.status as payment_status,
+               t.upi_transaction_id
         FROM orders o
-        JOIN users u ON o.user_id = u.id
-        $where
+        LEFT JOIN users u ON o.user_id = u.id
+        LEFT JOIN transactions t ON o.id = t.order_id
         ORDER BY o.created_at DESC
-        LIMIT ? OFFSET ?";
+        LIMIT $per_page OFFSET $offset";
 
-$stmt = $conn->prepare($sql);
-if (!empty($where)) {
-    $params[] = $per_page;
-    $params[] = $offset;
-    $types .= 'ii';
-    $stmt->bind_param($types, ...$params);
-} else {
-    $stmt->bind_param('ii', $per_page, $offset);
-}
-$stmt->execute();
-$orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$orders = $conn->query($sql);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin - Manage Orders</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <title>Admin - Orders</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <style>
+        .payment-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .payment-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .payment-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .payment-failed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 4px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #3498db;
+            border-radius: 4px;
+        }
+        .pagination a.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        .pagination a:hover:not(.active) {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
     <?php include 'includes/admin_header.php'; ?>
@@ -66,61 +85,34 @@ $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     <main class="admin-container">
         <h1>Order Management</h1>
         
-        <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['message'] ?></div>
-            <?php unset($_SESSION['message']); ?>
-        <?php endif; ?>
-        
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'] ?></div>
-            <?php unset($_SESSION['error']); ?>
-        <?php endif; ?>
-        
         <div class="admin-actions">
             <form method="get" class="search-form">
                 <input type="text" name="search" placeholder="Search orders..." 
-                       value="<?= htmlspecialchars($search) ?>">
+                       value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
                 <button type="submit" class="btn">Search</button>
-                <?php if (!empty($search)): ?>
-                    <a href="orders.php" class="btn">Clear</a>
-                <?php endif; ?>
             </form>
-        </div>
-        
-        <div class="order-filters">
-            <a href="orders.php?status=all" class="btn <?= !isset($_GET['status']) ? 'active' : '' ?>">All</a>
-            <a href="orders.php?status=pending" class="btn <?= ($_GET['status'] ?? '') == 'pending' ? 'active' : '' ?>">Pending</a>
-            <a href="orders.php?status=processing" class="btn <?= ($_GET['status'] ?? '') == 'processing' ? 'active' : '' ?>">Processing</a>
-            <a href="orders.php?status=shipped" class="btn <?= ($_GET['status'] ?? '') == 'shipped' ? 'active' : '' ?>">Shipped</a>
-            <a href="orders.php?status=delivered" class="btn <?= ($_GET['status'] ?? '') == 'delivered' ? 'active' : '' ?>">Delivered</a>
-            <a href="orders.php?status=cancelled" class="btn <?= ($_GET['status'] ?? '') == 'cancelled' ? 'active' : '' ?>">Cancelled</a>
         </div>
         
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Order #</th>
+                    <th>Order ID</th>
                     <th>Customer</th>
                     <th>Date</th>
-                    <th>Total</th>
-                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Order Status</th>
+                    <th>Payment Status</th>
+                    <th>Transaction ID</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($orders)): ?>
+                <?php if ($orders->num_rows > 0): ?>
+                    <?php while ($order = $orders->fetch_assoc()): ?>
                     <tr>
-                        <td colspan="6" class="text-center">No orders found</td>
-                    </tr>
-                <?php else: ?>
-                    <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td><a href="order_detail.php?id=<?= $order['id'] ?>">#<?= $order['id'] ?></a></td>
-                        <td>
-                            <?= htmlspecialchars($order['username']) ?>
-                            <small><?= htmlspecialchars($order['email']) ?></small>
-                        </td>
-                        <td><?= date('M j, Y', strtotime($order['created_at'])) ?></td>
+                        <td>#<?= $order['id'] ?></td>
+                        <td><?= htmlspecialchars($order['customer_name']) ?></td>
+                        <td><?= date('M j, Y H:i', strtotime($order['created_at'])) ?></td>
                         <td>₹<?= number_format($order['total'], 2) ?></td>
                         <td>
                             <span class="status-<?= strtolower($order['status']) ?>">
@@ -128,30 +120,52 @@ $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             </span>
                         </td>
                         <td>
-                            <a href="order_detail.php?id=<?= $order['id'] ?>" class="btn">View</a>
+                            <?php if ($order['payment_status']): ?>
+                                <span class="payment-status payment-<?= strtolower($order['payment_status']) ?>">
+                                    <?= ucfirst($order['payment_status']) ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="payment-status">N/A</span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= $order['upi_transaction_id'] ?? 'N/A' ?></td>
+                        <td>
+                            <a href="order_detail.php?id=<?= $order['id'] ?>" class="btn btn-sm">View</a>
                         </td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="8" class="text-center">No orders found</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         
         <!-- Pagination -->
-        <?php if ($total_pages > 1): ?>
         <div class="pagination">
             <?php if ($current_page > 1): ?>
-                <a href="?<?= http_build_query(array_merge($_GET, ['page' => 1])) ?>" class="btn">First</a>
-                <a href="?<?= http_build_query(array_merge($_GET, ['page' => $current_page - 1])) ?>" class="btn">Previous</a>
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page=<?= $current_page - 1 ?>">&lsaquo; Previous</a>
             <?php endif; ?>
             
-            <span>Page <?= $current_page ?> of <?= $total_pages ?></span>
+            <?php
+            // Show page numbers
+            $start = max(1, $current_page - 2);
+            $end = min($total_pages, $current_page + 2);
+            
+            for ($i = $start; $i <= $end; $i++):
+            ?>
+                <a href="?page=<?= $i ?>" <?= $i == $current_page ? 'class="active"' : '' ?>>
+                    <?= $i ?>
+                </a>
+            <?php endfor; ?>
             
             <?php if ($current_page < $total_pages): ?>
-                <a href="?<?= http_build_query(array_merge($_GET, ['page' => $current_page + 1])) ?>" class="btn">Next</a>
-                <a href="?<?= http_build_query(array_merge($_GET, ['page' => $total_pages])) ?>" class="btn">Last</a>
+                <a href="?page=<?= $current_page + 1 ?>">Next &rsaquo;</a>
+                <a href="?page=<?= $total_pages ?>">Last &raquo;</a>
             <?php endif; ?>
         </div>
-        <?php endif; ?>
     </main>
     
     <?php include 'includes/admin_footer.php'; ?>
